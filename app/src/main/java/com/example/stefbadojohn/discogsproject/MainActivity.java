@@ -2,6 +2,7 @@ package com.example.stefbadojohn.discogsproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String releaseId = editTextId.getText().toString();
-                getReleaseInfo(releaseId);
+                getRelease(releaseId);
             }
         });
 
     }
 
-    public void getReleaseInfo(String releaseId) {
+    public void getRelease(String releaseId) {
+        buttonFetch.setEnabled(false);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.discogs.com")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -55,26 +58,34 @@ public class MainActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     if (response.code() == 404) {
                         Toast.makeText(MainActivity.this,
-                                "We couldn't find a release with the specified ID!",
+                                "Couldn't find a release with the specified ID!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MainActivity.this,
-                                "Error Code: " + response.code(),
+                                "Code: " + response.code(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     DiscogsRelease release = response.body();
+
                     textViewArtist.setText(getString(R.string.artist, release.getArtists_sort()));
                     textViewTitle.setText(getString(R.string.title, release.getTitle()));
                 }
+
+                buttonFetch.setEnabled(true);
             }
 
             @Override
             public void onFailure(Call<DiscogsRelease> call, Throwable t) {
                 Toast.makeText(MainActivity.this,
-                        "Error" + t.toString(),
+                        "Error",
                         Toast.LENGTH_LONG).show();
+                Log.e("Release Call Failure", "Throwable: " + t.toString());
+
+                buttonFetch.setEnabled(true);
             }
+
         });
     }
+
 }
