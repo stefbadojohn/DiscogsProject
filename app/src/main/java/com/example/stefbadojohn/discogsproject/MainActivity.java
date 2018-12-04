@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFetch;
     private EditText editTextId;
 
+    private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://api.discogs.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    private DiscogsClient client = retrofit.create(DiscogsClient.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +51,6 @@ public class MainActivity extends AppCompatActivity {
     public void getRelease(String releaseId) {
         buttonFetch.setEnabled(false);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.discogs.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        DiscogsClient client = retrofit.create(DiscogsClient.class);
         Call<DiscogsRelease> call = client.release(releaseId);
 
         call.enqueue(new Callback<DiscogsRelease>() {
