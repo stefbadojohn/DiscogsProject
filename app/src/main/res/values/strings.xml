@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Discogs Project</string>
     <string name="fetch">Fetch</string>
-    <string name="artist">Artist: %1$s</string>
+    <string name="artists">Artists:</string>
     <string name="title">Title: %1$s</string>
-    <string name="hint_id">Discogs Release ID</string>
+    <string name="hint_id">Discogs Release ID (3308857)</string>
 </resources>

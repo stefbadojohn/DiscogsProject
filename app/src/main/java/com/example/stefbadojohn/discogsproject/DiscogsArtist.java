@@ -1,6 +1,7 @@
 package com.example.stefbadojohn.discogsproject;
 
 public class DiscogsArtist {
+
     private int id;
     private String name;
 

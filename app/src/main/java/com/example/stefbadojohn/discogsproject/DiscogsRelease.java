@@ -1,12 +1,14 @@
 package com.example.stefbadojohn.discogsproject;
 
+import java.util.List;
+
 public class DiscogsRelease {
 
-    private String artists_sort;
+    private List<DiscogsArtist> artists;
     private String title;
 
-    public String getArtists_sort() {
-        return artists_sort;
+    public List<DiscogsArtist> getArtists() {
+        return artists;
     }
 
     public String getTitle() {
