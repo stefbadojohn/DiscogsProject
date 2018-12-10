@@ -1,9 +1,12 @@
 package com.example.stefbadojohn.discogsproject;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,15 +85,11 @@ public class MainActivity extends AppCompatActivity {
                                 "Code: " + response.code(),
                                 Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                } else { // Success
                     DiscogsRelease release = response.body();
                     List<DiscogsArtist> artistsList = release.getArtists();
 
-                    populateArtistListView(artistsList);
-
-                    textViewTitle.setText(getString(R.string.title, release.getTitle()));
-                    textViewArtist.setVisibility(View.VISIBLE);
-                    //textViewArtist.setText(getString(R.string.artist, artistsList.get(0).getName()));
+                    displayRelease(artistsList, release.getTitle());
                 }
 
                 buttonFetch.setEnabled(true);
@@ -103,12 +108,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void displayRelease(List<DiscogsArtist> artistsList, String title) {
+        textViewTitle.setText(getString(R.string.title, title));
+        textViewArtist.setVisibility(View.VISIBLE);
+        populateArtistListView(artistsList);
+        //textViewArtist.setText(getString(R.string.artist, artistsList.get(0).getName()));
+    }
+
     private void populateArtistListView(List<DiscogsArtist> artistsList) {
+        final Intent intent = new Intent(MainActivity.this, ArtistActivity.class);
+
         ArrayList<String> artistsNames = new ArrayList<>();
 
         for (DiscogsArtist artist : artistsList) {
             artistsNames.add(artist.getName());
         }
+
+        intent.putExtra("artistObj", artistsNames);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 MainActivity.this,
@@ -117,5 +133,13 @@ public class MainActivity extends AppCompatActivity {
         );
 
         artistsListView.setAdapter(adapter);
+
+        artistsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                intent.putExtra("arrayListPosition", i);
+                startActivity(intent);
+            }
+        });
     }
 }
