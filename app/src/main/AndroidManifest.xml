@@ -17,8 +17,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="callback"
+                    android:scheme="discogsproject"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".ArtistActivity"></activity>
+        <activity android:name=".ArtistActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -9,9 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFetch;
     private EditText editTextId;
     private ListView artistsListView;
+    private ImageView imageView;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.discogs.com")
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         buttonFetch = findViewById(R.id.button_fetch);
         editTextId = findViewById(R.id.editText_id);
         artistsListView = findViewById(R.id.artistListView);
+        imageView = findViewById(R.id.imageView01);
 
         textViewArtist.setVisibility(View.INVISIBLE);
 
@@ -79,8 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 } else { // Success
                     DiscogsRelease release = response.body();
                     List<DiscogsArtist> artistsList = release.getArtists();
+                    List<DiscogsImages> imagesList = release.getImages();
+
+                    String imgUrl = imagesList.get(0).getImageUrl();
+                    loadImageByInternetUrl(imgUrl);
 
                     displayRelease(artistsList, release.getTitle());
+
                 }
 
                 buttonFetch.setEnabled(true);
@@ -103,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         textViewTitle.setText(getString(R.string.title, title));
         textViewArtist.setVisibility(View.VISIBLE);
         populateArtistListView(artistsList);
-        //textViewArtist.setText(getString(R.string.artist, artistsList.get(0).getName()));
     }
 
     private void populateArtistListView(List<DiscogsArtist> artistsList) {
@@ -132,5 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void loadImageByInternetUrl(String imgUrl) {
+        Picasso.get().load(imgUrl).into(imageView);
     }
 }
