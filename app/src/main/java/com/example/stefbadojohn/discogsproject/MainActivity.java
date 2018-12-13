@@ -20,7 +20,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,13 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextId;
     private ListView artistsListView;
     private ImageView imageView;
-
-    private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.discogs.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-    private DiscogsClient client = retrofit.create(DiscogsClient.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     private void getRelease(String releaseId) {
         buttonFetch.setEnabled(false);
 
+        Retrofit retrofit = RetrofitClient.getClient();
+
+        DiscogsClient client = retrofit.create(DiscogsClient.class);
+
         Call<DiscogsRelease> call = client.release(releaseId);
 
         call.enqueue(new Callback<DiscogsRelease>() {
@@ -82,14 +78,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else { // Success
                     DiscogsRelease release = response.body();
-                    List<DiscogsArtist> artistsList = release.getArtists();
-                    List<DiscogsImages> imagesList = release.getImages();
+                    List<DiscogsArtist> artistList = release.getArtists();
+                    List<DiscogsImage> imageList;
 
-                    String imgUrl = imagesList.get(0).getImageUrl();
-                    loadImageByInternetUrl(imgUrl);
+                    if (release.getImages() != null) {
+                        imageList = release.getImages();                    // Fill imageList
+                        String imgUrl = imageList.get(0).getImageUrl();     // Get 1st image url
+                        loadImageByInternetUrl(imgUrl);                     // Load image using picasso
+                    } else {
+                        imageView.setImageResource(android.R.color.transparent);    // Clear imageView
+                        Toast.makeText(MainActivity.this,
+                                "No image found for this release!",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-                    displayRelease(artistsList, release.getTitle());
-
+                    displayRelease(artistList, release.getTitle());
                 }
 
                 buttonFetch.setEnabled(true);
@@ -108,41 +111,44 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void displayRelease(List<DiscogsArtist> artistsList, String title) {
+    private void displayRelease(List<DiscogsArtist> artistList, String title) {
         textViewTitle.setText(getString(R.string.title, title));
         textViewArtist.setVisibility(View.VISIBLE);
-        populateArtistListView(artistsList);
+        populateArtistListView(artistList);
     }
 
-    private void populateArtistListView(List<DiscogsArtist> artistsList) {
+    private void populateArtistListView(final List<DiscogsArtist> artistList) {
         final Intent intent = new Intent(MainActivity.this, ArtistActivity.class);
 
-        ArrayList<String> artistsNames = new ArrayList<>();
+        ArrayList<String> artistArrayNames = new ArrayList<>();
 
-        for (DiscogsArtist artist : artistsList) {
-            artistsNames.add(artist.getName());
+        for (DiscogsArtist artist : artistList) {
+            artistArrayNames.add(artist.getName());
         }
-
-        intent.putExtra("artistObj", artistsNames);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 MainActivity.this,
                 android.R.layout.simple_list_item_1,
-                artistsNames
+                artistArrayNames
         );
 
         artistsListView.setAdapter(adapter);
 
+        //intent.putExtra("artistArrayNames", artistArrayNames);
+
         artistsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                intent.putExtra("arrayListPosition", i);
+                intent.putExtra("itemPositionInArray", i);
+                intent.putExtra("artistId", artistList.get(i).getId());
                 startActivity(intent);
             }
         });
     }
 
     private void loadImageByInternetUrl(String imgUrl) {
-        Picasso.get().load(imgUrl).into(imageView);
+        Picasso.get()
+                .load(imgUrl)
+                .into(imageView);
     }
 }

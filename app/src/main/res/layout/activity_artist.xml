@@ -7,14 +7,65 @@
     tools:context=".ArtistActivity">
 
     <TextView
-        android:id="@+id/textView01"
+        android:id="@+id/textViewArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text=""
-        android:textSize="16sp"
         android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Artist Name" />
+
+    <TextView
+        android:id="@+id/textViewArtistId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:text=""
+        android:textColor="#f1f"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Artist Name" />
+
+    <ScrollView
+        android:id="@+id/scrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textViewArtistName">
+
+        <TextView
+            android:id="@+id/textViewArtistProfile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#333"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Artist Profile" />
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageViewArtistImage"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

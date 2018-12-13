@@ -6,7 +6,7 @@ public class DiscogsRelease {
 
     private List<DiscogsArtist> artists;
     private String title;
-    private List<DiscogsImages> images;
+    private List<DiscogsImage> images;
 
     public List<DiscogsArtist> getArtists() {
         return artists;
@@ -16,7 +16,7 @@ public class DiscogsRelease {
         return title;
     }
 
-    public List<DiscogsImages> getImages() {
+    public List<DiscogsImage> getImages() {
         return images;
     }
 }

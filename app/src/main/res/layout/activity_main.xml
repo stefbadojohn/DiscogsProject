@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:textColor="#000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="18dp"
         android:labelFor="@+id/artistListView"
         android:text="@string/artists"
         android:textColor="#000"
@@ -59,14 +59,14 @@
     <ListView
         android:id="@+id/artistListView"
         android:layout_width="258dp"
-        android:layout_height="149dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fastScrollAlwaysVisible="false"
         android:fastScrollEnabled="true"
         app:layout_constraintStart_toEndOf="@+id/textView_artist"
         app:layout_constraintTop_toBottomOf="@+id/textView_title"
-        tools:listitem="@android:layout/simple_list_item_2" />
+        tools:listitem="@android:layout/simple_list_item_1" />
 
     <ImageView
         android:id="@+id/imageView01"
@@ -75,6 +75,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/artistListView"

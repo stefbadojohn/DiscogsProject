@@ -2,10 +2,10 @@ package com.example.stefbadojohn.discogsproject;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DiscogsImages {
+public class DiscogsImage {
 
     @SerializedName("uri")
-    private String imageUrl;
+    private String imageUri;
 
     @SerializedName("resource_url")
     private String resourceUrl;
@@ -14,7 +14,7 @@ public class DiscogsImages {
     private int width;
 
     public String getImageUrl() {
-        return imageUrl;
+        return imageUri;
     }
 
     public String getResourceUrl() {
