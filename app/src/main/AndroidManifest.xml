@@ -25,7 +25,7 @@
 
                 <data
                     android:host="callback"
-                    android:scheme="discogsproject"/>
+                    android:scheme="discogsproject" />
             </intent-filter>
         </activity>
         <activity android:name=".ArtistActivity"

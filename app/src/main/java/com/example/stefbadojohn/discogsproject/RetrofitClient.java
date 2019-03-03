@@ -19,10 +19,8 @@ public class RetrofitClient {
                 @Override
                 public okhttp3.Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
-                    Request.Builder newRequest = request.newBuilder().header(
-                            "Authorization",
-                            "Discogs key=foo, secret=bar"
-                    );
+                    Request.Builder newRequest = request.newBuilder()
+                            .header("Authorization","Discogs key=key, secret=secret");
 
                     return chain.proceed(newRequest.build());
                 }
