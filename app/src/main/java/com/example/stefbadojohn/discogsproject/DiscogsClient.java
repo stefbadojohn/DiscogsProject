@@ -1,5 +1,7 @@
 package com.example.stefbadojohn.discogsproject;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -38,4 +40,10 @@ public interface DiscogsClient {
     @GET("/artists/{artistId}")
     @Headers({"User-Agent: DiscogsProject/0.1"})
     Call<DiscogsArtist> artist(@Path("artistId") String id);
+/*
+    @GET("/database/search?release_title={releaseTitle}&per_page=3&page=1")
+    @Headers({"User-Agent: DiscogsProject/0.1"})
+    Call<List<DiscogsArtist>> releaseQuery(@Path("releaseTitle") String id);
+*/
+
 }

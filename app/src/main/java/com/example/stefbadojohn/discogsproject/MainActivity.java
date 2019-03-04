@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestToken() {
+        buttonFetch.setVisibility(View.GONE);
+        buttonAuth.setVisibility(View.GONE);
+        editTextId.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -138,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAuthPage(String token) {
-        buttonFetch.setVisibility(View.GONE);
-        buttonAuth.setVisibility(View.GONE);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -169,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void prepAccessTokenReq(String url) {
-        buttonFetch.setVisibility(View.VISIBLE);
-        buttonAuth.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -218,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("AccessToken/Token", accessToken.getOauthToken());
                         Log.d("AccessToken/Secret", accessToken.getOauthTokenSecret());
 
-                        buttonAuth.setVisibility(View.GONE);
                         testAuth();
                     }
                 }
@@ -297,6 +295,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<DiscogsIdentity> call, Response<DiscogsIdentity> response) {
                 progressBar.setVisibility(View.GONE);
+                buttonAuth.setVisibility(View.GONE);
+                buttonFetch.setVisibility(View.VISIBLE);
+                editTextId.setVisibility(View.VISIBLE);
+
                 if (!response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                 } else {
