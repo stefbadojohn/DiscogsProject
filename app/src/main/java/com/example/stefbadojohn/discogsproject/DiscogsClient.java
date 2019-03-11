@@ -1,49 +1,32 @@
 package com.example.stefbadojohn.discogsproject;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface DiscogsClient {
 
-    @GET("/oauth/request_token")
-    @Headers({
-            "User-Agent: DiscogsProject/0.1",
-            "Content-Type: application/x-www-form-urlencoded"
-    })
-    Call<String> requestToken(@Header("Authorization") String oauth);
+    String AUTHORIZE_URL = "https://www.discogs.com/oauth/authorize";
 
-    @POST("/oauth/access_token")
-    //@FormUrlEncoded
-    @Headers({
-            "User-Agent: DiscogsProject/0.1",
-            "Content-Type: application/x-www-form-urlencoded"
-            //"Authorization: OAuth"
-    })
-    Call<String> getAccessToken(@Header("Authorization") String oauth);
+    String ENDPOINT_REQUEST = "/oauth/request_token";
+    String ENDPOINT_ACCESS = "/oauth/access_token";
+
+    @GET(ENDPOINT_REQUEST)
+    Observable<String> requestToken();
+
+    @POST(ENDPOINT_ACCESS)
+    Observable<String> getAccessToken(@Header("Authorization") String oauth);
 
     @GET("/oauth/identity")
-    @Headers({"User-Agent: DiscogsProject/0.1"})
-    Call<DiscogsIdentity> getIdentity(@Header("Authorization") String oauth);
+    Observable<DiscogsIdentity> getIdentity();
 
     @GET("/releases/{releaseId}")
-    @Headers({"User-Agent: DiscogsProject/0.1"})
-    Call<DiscogsRelease> release(@Path("releaseId") String id);
+    Observable<DiscogsRelease> release(@Path("releaseId") long id);
 
     @GET("/artists/{artistId}")
-    @Headers({"User-Agent: DiscogsProject/0.1"})
-    Call<DiscogsArtist> artist(@Path("artistId") String id);
-/*
-    @GET("/database/search?release_title={releaseTitle}&per_page=3&page=1")
-    @Headers({"User-Agent: DiscogsProject/0.1"})
-    Call<List<DiscogsArtist>> releaseQuery(@Path("releaseTitle") String id);
-*/
+    Observable<DiscogsArtist> artist(@Path("artistId") long id);
 
+    //@GET("/database/search?release_title={releaseTitle}&per_page=3&page=1")
 }

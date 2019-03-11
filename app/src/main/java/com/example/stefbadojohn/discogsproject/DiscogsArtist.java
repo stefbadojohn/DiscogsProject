@@ -4,12 +4,12 @@ import java.util.List;
 
 public class DiscogsArtist {
 
-    private int id;
+    private long id;
     private String name;
     private List<DiscogsImage> images;
     private String profile;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

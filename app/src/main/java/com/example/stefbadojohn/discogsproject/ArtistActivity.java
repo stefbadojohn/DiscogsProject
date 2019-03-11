@@ -1,10 +1,19 @@
 package com.example.stefbadojohn.discogsproject;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,7 +21,6 @@ import retrofit2.Retrofit;
 
 public class ArtistActivity extends AppCompatActivity {
 
-    int artistId;
     private TextView textViewArtistName;
     private TextView textViewArtistId;
     private ImageView imageViewArtistImage;
@@ -28,50 +36,57 @@ public class ArtistActivity extends AppCompatActivity {
         imageViewArtistImage = findViewById(R.id.imageViewArtistImage);
         textViewArtistProfile = findViewById(R.id.textViewArtistProfile);
 
+        long artistId;
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            artistId = bundle.getInt("artistId");
+            artistId = bundle.getLong("artistId");
+            getArtist(artistId);
         }
+    }
 
-        Retrofit retrofit = RetrofitClient.getClient();
+    private void getArtist(long artistId) {
+        NetworkInterface network = new Network(ArtistActivity.this);
 
-        DiscogsClient client = retrofit.create(DiscogsClient.class);
+        Observable<DiscogsArtist> obsArtist = network.getArtistsById(artistId);
 
-        Call<DiscogsArtist> call = client.artist(String.valueOf(artistId));
-
-        call.enqueue(new Callback<DiscogsArtist>() {
+        obsArtist.subscribe(new Observer<DiscogsArtist>() {
             @Override
-            public void onResponse(Call<DiscogsArtist> call, Response<DiscogsArtist> response) {
-                if (response.isSuccessful()) {
-                    DiscogsArtist artist = response.body();
+            public void onSubscribe(Disposable d) {
 
-                    textViewArtistName.setText(artist.getName());
-                    textViewArtistId.setText(String.valueOf(artist.getId()));
-
-                    if (artist.getImages() != null) {
-                        if (!artist.getImages().get(0).getImageUrl().equals("")) {
-                            loadImageByInternetUrl(artist.getImages().get(0).getImageUrl());
-                        }
-                    }
-
-                    if (artist.getProfile() != null) {
-                        //textViewArtistProfile.setText(artist.getProfile());
-                        textViewArtistProfile.setText(artist.getProfile());
-                    }
-
-                }
             }
 
             @Override
-            public void onFailure(Call<DiscogsArtist> call, Throwable t) {
+            public void onNext(DiscogsArtist discogsArtist) {
+                displayArtist(discogsArtist);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(ArtistActivity.this,
+                        NetworkUtils.networkExceptionHandle(e),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
     }
 
-    private void loadImageByInternetUrl(String imgUrl) {
-        Picasso.get()
-                .load(imgUrl)
-                .into(imageViewArtistImage);
+    private void displayArtist(DiscogsArtist discogsArtist) {
+        String artistIdString = String.valueOf(discogsArtist.getId());
+        textViewArtistId.setText(artistIdString);
+        textViewArtistName.setText(discogsArtist.getName());
+        textViewArtistProfile.setText(discogsArtist.getProfile());
+        List<DiscogsImage> releaseImages = discogsArtist.getImages();
+        if (releaseImages != null) {
+            String artistImageUrl = discogsArtist.getImages().get(0).getImageUrl();
+            if (!artistImageUrl.equals("")) {
+                NetworkUtils.loadImageByInternetUrl(artistImageUrl, imageViewArtistImage);
+            }
+        }
     }
+
 }

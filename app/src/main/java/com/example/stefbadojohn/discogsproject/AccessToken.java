@@ -1,7 +1,5 @@
 package com.example.stefbadojohn.discogsproject;
 
-import com.google.gson.annotations.SerializedName;
-
 class AccessToken {
     private String oauthToken;
 
