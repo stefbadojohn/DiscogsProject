@@ -1,2 +1,2 @@
 # DiscogsProject
-A simple android app that communicates with the Discogs API.
+A simple Discogs client for Android.
