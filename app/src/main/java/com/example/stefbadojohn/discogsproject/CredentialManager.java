@@ -12,12 +12,12 @@ public class CredentialManager implements CredentialManagerInterface {
 
     @Override
     public String getConsumerKey() {
-        return "key";
+        return "JoFTMKwVGpTTMyDZANrv";
     }
 
     @Override
     public String getConsumerSecret() {
-        return "secret";
+        return "ppxHeEWXFNVHquzNQFSylDLaGKDWzdlO";
     }
 
     @Override

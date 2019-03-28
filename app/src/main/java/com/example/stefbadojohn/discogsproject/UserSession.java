@@ -10,7 +10,7 @@ public class UserSession implements UserSessionInterface {
     }
 
     @Override
-    public boolean getIsLoggedIn() {
+    public boolean isLoggedIn() {
         if ((credManager.getUserToken() != null) && (credManager.getUserTokenSecret() != null)) {
             return true;
         } else {
@@ -28,6 +28,11 @@ public class UserSession implements UserSessionInterface {
     @Override
     public String getUserTokenSecret() {
         return credManager.getUserTokenSecret();
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
     }
 
     @Override

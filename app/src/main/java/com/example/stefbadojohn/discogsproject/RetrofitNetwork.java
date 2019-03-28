@@ -15,7 +15,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class Network implements NetworkInterface {
+public class RetrofitNetwork implements NetworkInterface {
     private CredentialManagerInterface credManager;
     private UserSessionInterface userSession;
 
@@ -27,7 +27,7 @@ public class Network implements NetworkInterface {
 
     private DiscogsClient loginClient;
 
-    public Network(Context context) {
+    public RetrofitNetwork(Context context) {
         credManager = new CredentialManager(context);
         userSession = new UserSession(context);
         okhttpInit();

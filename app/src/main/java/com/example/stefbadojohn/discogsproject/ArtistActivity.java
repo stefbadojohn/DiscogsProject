@@ -1,23 +1,16 @@
 package com.example.stefbadojohn.discogsproject;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ArtistActivity extends AppCompatActivity {
 
@@ -46,7 +39,7 @@ public class ArtistActivity extends AppCompatActivity {
     }
 
     private void getArtist(long artistId) {
-        NetworkInterface network = new Network(ArtistActivity.this);
+        NetworkInterface network = new RetrofitNetwork(ArtistActivity.this);
 
         Observable<DiscogsArtist> obsArtist = network.getArtistsById(artistId);
 
