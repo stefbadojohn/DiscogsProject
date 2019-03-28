@@ -2,13 +2,12 @@ package com.example.stefbadojohn.discogsproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-public class CredentialManager implements CredentialManagerInterface {
-    private Context context;
+import static com.example.stefbadojohn.discogsproject.MainApplication.getAppContext;
 
-    public CredentialManager(Context context) {
-        this.context = context;
-    }
+public class InsecureCredentialManager implements CredentialManagerInterface {
 
     @Override
     public String getConsumerKey() {
@@ -21,19 +20,36 @@ public class CredentialManager implements CredentialManagerInterface {
     }
 
     @Override
+    @Nullable
     public String getUserToken() {
+        Context context = getAppContext();
+        if (context == null) {
+            return null;
+        }
+
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         return pref.getString("userToken", null);
     }
 
     @Override
+    @Nullable
     public String getUserTokenSecret() {
+        Context context = getAppContext();
+        if (context == null) {
+            return null;
+        }
+
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         return pref.getString("userTokenSecret", null);
     }
 
     @Override
     public void setUserToken(String userToken) {
+        Context context = getAppContext();
+        if (context == null) {
+            return;
+        }
+
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("userToken", userToken);
@@ -42,6 +58,11 @@ public class CredentialManager implements CredentialManagerInterface {
 
     @Override
     public void setUserTokenSecret(String userTokenSecret) {
+        Context context = getAppContext();
+        if (context == null) {
+            return;
+        }
+
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("userTokenSecret", userTokenSecret);
@@ -50,6 +71,11 @@ public class CredentialManager implements CredentialManagerInterface {
 
     @Override
     public void clearUserToken() {
+        Context context = getAppContext();
+        if (context == null) {
+            return;
+        }
+
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();

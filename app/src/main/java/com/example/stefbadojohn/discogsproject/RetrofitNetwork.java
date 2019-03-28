@@ -16,20 +16,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitNetwork implements NetworkInterface {
-    private CredentialManagerInterface credManager;
-    private UserSessionInterface userSession;
+
+    private CredentialManagerInterface credManager = CredentialManagerInterface.instance;
+    private UserSessionInterface userSession = UserSessionInterface.instance;
 
     private OkHttpClient okhttp;
-    private Retrofit retrofit;
-    private Retrofit loginRetrofit;
 
     private DiscogsClient client;
 
     private DiscogsClient loginClient;
 
-    public RetrofitNetwork(Context context) {
-        credManager = new CredentialManager(context);
-        userSession = new UserSession(context);
+    public RetrofitNetwork() {
         okhttpInit();
         retrofitInit();
         loginRetrofitInit();
@@ -86,7 +83,7 @@ public class RetrofitNetwork implements NetworkInterface {
     }
 
     private void retrofitInit() {
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.discogs.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -97,7 +94,7 @@ public class RetrofitNetwork implements NetworkInterface {
     }
 
     private void loginRetrofitInit() {
-        loginRetrofit = new Retrofit.Builder()
+        Retrofit loginRetrofit = new Retrofit.Builder()
                 .baseUrl("https://api.discogs.com")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

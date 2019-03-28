@@ -1,13 +1,10 @@
 package com.example.stefbadojohn.discogsproject;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 public class UserSession implements UserSessionInterface {
-    private CredentialManagerInterface credManager;
-
-    public UserSession(Context context) {
-        credManager = new CredentialManager(context);
-    }
+    private CredentialManagerInterface credManager = CredentialManagerInterface.instance;
 
     @Override
     public boolean isLoggedIn() {
@@ -21,18 +18,22 @@ public class UserSession implements UserSessionInterface {
     //TODO: Replace getUserToken/Secret with -> AccessToken getAccessToken()
 
     @Override
+    @Nullable
     public String getUserToken() {
         return credManager.getUserToken();
     }
 
     @Override
+    @Nullable
     public String getUserTokenSecret() {
         return credManager.getUserTokenSecret();
     }
 
     @Override
+    @Nullable
     public String getUsername() {
         return null;
+        //TODO: Add this! :P
     }
 
     @Override

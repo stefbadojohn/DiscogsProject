@@ -18,8 +18,9 @@ public class OAuthActivity extends AppCompatActivity {
 
     private ProgressBar spinner;
     private WebView webView;
-    private UserSessionInterface userSession;
-    private NetworkInterface network;
+
+    private UserSessionInterface userSession = UserSessionInterface.instance;
+    private NetworkInterface network = NetworkInterface.instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,6 @@ public class OAuthActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.progressBar);
         webView = findViewById(R.id.oauthWebview);
-        userSession = new UserSession(OAuthActivity.this);
-        network = new RetrofitNetwork(OAuthActivity.this);
 
         spinner.setVisibility(View.VISIBLE);
 

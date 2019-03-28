@@ -11,12 +11,5 @@ public interface NetworkInterface {
     Observable<DiscogsRelease> getReleaseById(long id);
     Observable<DiscogsArtist> getArtistsById(long id);
 
-    static NetworkInterface _instance = null;
-    static NetworkInterface getInstance() {
-        if (_instance == null) {
-            
-        }
-
-        return _instance;
-    }
+    static NetworkInterface instance = new RetrofitNetwork();
 }

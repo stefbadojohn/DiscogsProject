@@ -32,12 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextId;
     private ListView artistsListView;
     private ImageView imageView;
-    private WebView webView;
     private ProgressBar spinner;
 
-    private UserSessionInterface userSession = new UserSession(this);
+    private UserSessionInterface userSession = UserSessionInterface.instance;
 
-    private NetworkInterface network = new RetrofitNetwork(MainActivity.this);
+    private NetworkInterface network = NetworkInterface.instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         editTextId = findViewById(R.id.editText_id);
         artistsListView = findViewById(R.id.artistListView);
         imageView = findViewById(R.id.imageView01);
-        webView = findViewById(R.id.webview_auth);
         spinner = findViewById(R.id.progressBar);
 
         textViewArtist.setVisibility(View.INVISIBLE);
@@ -163,10 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRelease(long releaseId) {
-
         buttonFetch.setEnabled(false);
-
-        NetworkInterface network = new RetrofitNetwork(MainActivity.this);
 
         Observable<DiscogsRelease> obsRelease = network.getReleaseById(releaseId);
 
