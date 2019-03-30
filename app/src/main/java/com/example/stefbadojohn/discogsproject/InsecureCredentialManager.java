@@ -2,8 +2,8 @@ package com.example.stefbadojohn.discogsproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import static com.example.stefbadojohn.discogsproject.MainApplication.getAppContext;
 
@@ -11,12 +11,12 @@ public class InsecureCredentialManager implements CredentialManagerInterface {
 
     @Override
     public String getConsumerKey() {
-        return "JoFTMKwVGpTTMyDZANrv";
+        return "key";
     }
 
     @Override
     public String getConsumerSecret() {
-        return "ppxHeEWXFNVHquzNQFSylDLaGKDWzdlO";
+        return "secret";
     }
 
     @Override

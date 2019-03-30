@@ -1,6 +1,6 @@
 package com.example.stefbadojohn.discogsproject;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,26 +8,26 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class ArtistActivity extends AppCompatActivity {
 
-    private TextView textViewArtistName;
-    private TextView textViewArtistId;
-    private ImageView imageViewArtistImage;
-    private TextView textViewArtistProfile;
+    @BindView(R.id.textViewArtistName) TextView textViewArtistName;
+    @BindView(R.id.textViewArtistId) TextView textViewArtistId;
+    @BindView(R.id.imageViewArtistImage) ImageView imageViewArtistImage;
+    @BindView(R.id.textViewArtistProfile) TextView textViewArtistProfile;
+
+    private NetworkInterface network = NetworkInterface.instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-
-        textViewArtistName = findViewById(R.id.textViewArtistName);
-        textViewArtistId = findViewById(R.id.textViewArtistId);
-        imageViewArtistImage = findViewById(R.id.imageViewArtistImage);
-        textViewArtistProfile = findViewById(R.id.textViewArtistProfile);
+        ButterKnife.bind(this);
 
         long artistId;
 
@@ -39,8 +39,6 @@ public class ArtistActivity extends AppCompatActivity {
     }
 
     private void getArtist(long artistId) {
-        NetworkInterface network = new RetrofitNetwork(ArtistActivity.this);
-
         Observable<DiscogsArtist> obsArtist = network.getArtistsById(artistId);
 
         obsArtist.subscribe(new Observer<DiscogsArtist>() {

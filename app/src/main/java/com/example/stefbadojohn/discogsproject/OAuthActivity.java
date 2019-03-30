@@ -1,7 +1,7 @@
 package com.example.stefbadojohn.discogsproject;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +10,16 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class OAuthActivity extends AppCompatActivity {
 
-    private ProgressBar spinner;
-    private WebView webView;
+    @BindView(R.id.progressBar1) ProgressBar spinner;
+    @BindView(R.id.oauthWebview) WebView webView;
 
     private UserSessionInterface userSession = UserSessionInterface.instance;
     private NetworkInterface network = NetworkInterface.instance;
@@ -26,9 +28,7 @@ public class OAuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oauth);
-
-        spinner = findViewById(R.id.progressBar);
-        webView = findViewById(R.id.oauthWebview);
+        ButterKnife.bind(this);
 
         spinner.setVisibility(View.VISIBLE);
 

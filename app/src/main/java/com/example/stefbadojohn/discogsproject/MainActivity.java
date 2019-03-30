@@ -1,10 +1,9 @@
 package com.example.stefbadojohn.discogsproject;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,21 +17,23 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewArtist;
-    private TextView textViewTitle;
-    private Button buttonFetch;
-    private Button buttonAuth;
-    private Button buttonLogout;
-    private EditText editTextId;
-    private ListView artistsListView;
-    private ImageView imageView;
-    private ProgressBar spinner;
+    @BindView(R.id.textView_artist) TextView textViewArtist;
+    @BindView(R.id.textView_title) TextView textViewTitle;
+    @BindView(R.id.button_fetch) Button buttonFetch;
+    @BindView(R.id.button_auth) Button buttonAuth;
+    @BindView(R.id.button_logout)Button buttonLogout;
+    @BindView(R.id.editText_id)EditText editTextId;
+    @BindView(R.id.artistListView)ListView artistsListView;
+    @BindView(R.id.imageView01)ImageView imageView;
+    @BindView(R.id.progressBar) ProgressBar spinner;
 
     private UserSessionInterface userSession = UserSessionInterface.instance;
 
@@ -41,22 +42,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
             savedInstanceState.getString("releaseIdString");
         }
-
-        setContentView(R.layout.activity_main);
-
-        textViewArtist = findViewById(R.id.textView_artist);
-        textViewTitle = findViewById(R.id.textView_title);
-        buttonFetch = findViewById(R.id.button_fetch);
-        buttonAuth = findViewById(R.id.button_auth);
-        buttonLogout = findViewById(R.id.button_logout);
-        editTextId = findViewById(R.id.editText_id);
-        artistsListView = findViewById(R.id.artistListView);
-        imageView = findViewById(R.id.imageView01);
-        spinner = findViewById(R.id.progressBar);
 
         textViewArtist.setVisibility(View.INVISIBLE);
 

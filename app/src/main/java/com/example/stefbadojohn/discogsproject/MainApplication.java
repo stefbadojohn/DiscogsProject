@@ -2,7 +2,7 @@ package com.example.stefbadojohn.discogsproject;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 

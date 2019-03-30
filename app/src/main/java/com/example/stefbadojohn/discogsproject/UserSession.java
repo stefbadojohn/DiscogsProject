@@ -1,7 +1,6 @@
 package com.example.stefbadojohn.discogsproject;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class UserSession implements UserSessionInterface {
     private CredentialManagerInterface credManager = CredentialManagerInterface.instance;
@@ -15,7 +14,7 @@ public class UserSession implements UserSessionInterface {
         }
     }
 
-    //TODO: Replace getUserToken/Secret with -> AccessToken getAccessToken()
+    //TODO: Replace getUserToken/Secret with -> AccessToken getAccessToken() ?
 
     @Override
     @Nullable
@@ -31,9 +30,8 @@ public class UserSession implements UserSessionInterface {
 
     @Override
     @Nullable
-    public String getUsername() {
+    public String getUsername() { //TODO: Add Functionality
         return null;
-        //TODO: Add this! :P
     }
 
     @Override
@@ -43,8 +41,8 @@ public class UserSession implements UserSessionInterface {
     }
 
     @Override
-    public void login() {
-        //TODO: Login (OAuth)
+    public void login() { //TODO: Add functionality
+
     }
 
     @Override

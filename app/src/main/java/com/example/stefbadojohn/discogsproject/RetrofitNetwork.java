@@ -73,8 +73,6 @@ public class RetrofitNetwork implements NetworkInterface {
                     }
                 }
 
-                // TODO: Add "Content-Type" header on REQUEST & ACCESS endpoints.
-
                 return chain.proceed(newRequest.build());
             }
         });
