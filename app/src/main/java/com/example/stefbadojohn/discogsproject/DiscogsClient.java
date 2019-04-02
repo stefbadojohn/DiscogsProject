@@ -5,6 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface DiscogsClient {
 
@@ -28,5 +29,9 @@ public interface DiscogsClient {
     @GET("/artists/{artistId}")
     Observable<DiscogsArtist> artist(@Path("artistId") long id);
 
-    //@GET("/database/search?release_title={releaseTitle}&per_page=3&page=1")
+    @GET("/database/search")
+    Observable<DiscogsSearch> search(@Query("type") String type,
+                                     @Query("release_title") String title,
+                                     @Query("per_page") String perPage,
+                                     @Query("page") String page);
 }

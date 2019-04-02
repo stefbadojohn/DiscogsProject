@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 public class UserSession implements UserSessionInterface {
     private CredentialManagerInterface credManager = CredentialManagerInterface.instance;
 
+    private static String username;
+
     @Override
     public boolean isLoggedIn() {
         if ((credManager.getUserToken() != null) && (credManager.getUserTokenSecret() != null)) {
@@ -30,8 +32,12 @@ public class UserSession implements UserSessionInterface {
 
     @Override
     @Nullable
-    public String getUsername() { //TODO: Add Functionality
-        return null;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        UserSession.username = username;
     }
 
     @Override

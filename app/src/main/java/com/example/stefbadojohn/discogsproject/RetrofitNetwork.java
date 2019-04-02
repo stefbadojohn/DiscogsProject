@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.internal.operators.observable.ObserverResourceWrapper;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -153,6 +154,15 @@ public class RetrofitNetwork implements NetworkInterface {
         Observable<DiscogsArtist> obsRequest = client.artist(artistId);
 
         return obsRequest
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<DiscogsSearch> getReleaseByTitle(String type, String title, String perPage, String page) {
+        Observable<DiscogsSearch> obsSearch = client.search(type, title, perPage, page);
+
+        return obsSearch
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

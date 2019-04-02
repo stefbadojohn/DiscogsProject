@@ -9,6 +9,8 @@ public interface NetworkInterface {
     Observable<DiscogsIdentity> getIdentity();
     Observable<DiscogsRelease> getReleaseById(long id);
     Observable<DiscogsArtist> getArtistsById(long id);
+    Observable<DiscogsSearch> getReleaseByTitle(String type, String title,
+                                                String perPage, String page);
 
     static NetworkInterface instance = new RetrofitNetwork();
 }

@@ -63,6 +63,10 @@ public class NetworkUtils {
     public static void loadImageByInternetUrl(String imgUrl, ImageView imageView) {
         Picasso.get()
                 .load(imgUrl)
+                .resize(250, 250)
+                .centerCrop()
+                .placeholder(R.mipmap.no_cover)
+                .error(R.mipmap.no_cover)
                 .into(imageView);
     }
 

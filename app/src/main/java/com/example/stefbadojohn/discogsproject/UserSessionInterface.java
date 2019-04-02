@@ -6,6 +6,7 @@ public interface UserSessionInterface {
     String getUserTokenSecret();
     String getUsername();
 
+    void setUsername(String username);
     void saveUserToken(String userToken, String userTokenSecret);
     void login();
     void logout();

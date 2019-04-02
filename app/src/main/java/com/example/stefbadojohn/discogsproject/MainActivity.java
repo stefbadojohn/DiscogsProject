@@ -1,22 +1,30 @@
 package com.example.stefbadojohn.discogsproject;
 
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding3.widget.RxTextView;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -25,15 +33,32 @@ import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.textView_artist) TextView textViewArtist;
-    @BindView(R.id.textView_title) TextView textViewTitle;
-    @BindView(R.id.button_fetch) Button buttonFetch;
-    @BindView(R.id.button_auth) Button buttonAuth;
-    @BindView(R.id.button_logout)Button buttonLogout;
-    @BindView(R.id.editText_id)EditText editTextId;
-    @BindView(R.id.artistListView)ListView artistsListView;
-    @BindView(R.id.imageView01)ImageView imageView;
-    @BindView(R.id.progressBar) ProgressBar spinner;
+    @BindView(R.id.textView_artist)
+    TextView textViewArtist;
+    @BindView(R.id.textView_title)
+    TextView textViewTitle;
+    @BindView(R.id.button_fetch)
+    Button buttonFetch;
+    @BindView(R.id.button_auth)
+    Button buttonAuth;
+    @BindView(R.id.button_logout)
+    Button buttonLogout;
+    /*@BindView(R.id.editText_id)
+    EditText editTextId;*/
+    @BindView(R.id.artistListView)
+    ListView artistsListView;
+    @BindView(R.id.imageView01)
+    ImageView imageView;
+    @BindView(R.id.progressBar)
+    ProgressBar spinner;
+    @BindView(R.id.editText_release)
+    EditText editTextRelease;
+    @BindView(R.id.myListView)
+    ListView myListView;
+/*    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;*/
+
+    private ResultsAdapter resultsAdapter;
 
     private UserSessionInterface userSession = UserSessionInterface.instance;
 
@@ -58,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             buttonLogout.setVisibility(View.GONE);
             openOAuthActivity();
         }
+/*
 
         buttonFetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+*/
+        buttonFetch.setVisibility(View.GONE); //TODO: Remove fetch button entirely?
+
         buttonAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,18 +117,19 @@ public class MainActivity extends AppCompatActivity {
                 buttonLogout.setVisibility(View.GONE);
                 buttonFetch.setVisibility(View.GONE);
                 buttonAuth.setVisibility(View.VISIBLE);
-                editTextId.setVisibility(View.GONE);
+                /*editTextId.setVisibility(View.GONE);*/
             }
         });
 
+        searchInit();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        String releaseIdString = editTextId.getText().toString();
-        outState.putString("releaseIdString", releaseIdString);
+        /*String releaseIdString = editTextId.getText().toString();
+        outState.putString("releaseIdString", releaseIdString);*/
 
     }
 
@@ -224,6 +254,81 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void getReleaseByTitle(String title) {
+
+        Observable<DiscogsSearch> obsSearch = network.getReleaseByTitle("release", title, "10", "1");
+
+        obsSearch.subscribe(new Observer<DiscogsSearch>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(DiscogsSearch discogsSearch) {
+
+                if (discogsSearch.getResults().size() == 0) {
+                    myListView.setAdapter(null);
+                    return;
+                }
+
+                ArrayList<DiscogsResult> discResults = new ArrayList<>();
+
+                for (DiscogsResult result : discogsSearch.getResults()) {
+                    discResults.add(result);
+                }
+
+                resultsAdapter = new ResultsAdapter(MainActivity.this, 0, discResults);
+
+                myListView.setAdapter(resultsAdapter);
+/*
+                Toast.makeText(MainActivity.this,
+                        "1st result: " + discogsSearch.getResults().get(0).getTitle(),
+                        Toast.LENGTH_LONG).show();
+*/
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    private void searchInit() {
+
+        RxTextView.textChanges(editTextRelease)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Observer<CharSequence>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CharSequence charSequence) {
+                        if (!charSequence.toString().equals("")) {
+                            getReleaseByTitle(charSequence.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
 }

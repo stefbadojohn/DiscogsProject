@@ -16,7 +16,7 @@
         android:textColor="#000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_id"
+        app:layout_constraintTop_toBottomOf="@+id/editText_release"
         tools:text="Title: " />
 
     <TextView
@@ -42,9 +42,9 @@
         android:text="@string/fetch"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText_id"
+        app:layout_constraintStart_toEndOf="@+id/editText_release"
         app:layout_constraintTop_toTopOf="parent" />
-
+<!--
     <EditText
         android:id="@+id/editText_id"
         android:layout_width="246dp"
@@ -57,6 +57,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:importantForAutofill="no" />
+-->
+    <EditText
+        android:id="@+id/editText_release"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="@string/hint_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/artistListView"
@@ -119,4 +135,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone" />
 
+    <ListView
+        android:id="@+id/myListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_logout"
+        app:layout_constraintTop_toBottomOf="@+id/editText_release"
+        tools:layout_editor_absoluteX="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

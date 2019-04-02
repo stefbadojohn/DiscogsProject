@@ -66,7 +66,9 @@ public class OAuthActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable e) {
-                NetworkUtils.networkExceptionHandle(e);
+                Toast.makeText(OAuthActivity.this,
+                        NetworkUtils.networkExceptionHandle(e),
+                        Toast.LENGTH_LONG).show();
             }
 
             @Override
